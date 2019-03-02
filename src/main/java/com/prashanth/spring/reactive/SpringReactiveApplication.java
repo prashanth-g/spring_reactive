@@ -17,6 +17,7 @@ public class SpringReactiveApplication {
                 Flux.just("Spring is coming soon", "Spring: The future", "Spring is cool")
                         .map(Movie::new)
                         .flatMap(movieRepository::save))
+                    .thenMany(movieRepository.findAll())
                     .subscribe(System.out::println);
         };
     }
