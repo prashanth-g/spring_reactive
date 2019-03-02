@@ -13,9 +13,10 @@ public class SpringReactiveApplication {
     @Bean
     ApplicationRunner sampleData(MovieRepository movieRepository) {
         return args -> {
-            Flux.just("Spring is coming soon", "Spring: The future", "Spring is cool")
-                    .map(Movie::new)
-                    .flatMap(movieRepository::save)
+            movieRepository.deleteAll().thenMany(
+                Flux.just("Spring is coming soon", "Spring: The future", "Spring is cool")
+                        .map(Movie::new)
+                        .flatMap(movieRepository::save))
                     .subscribe(System.out::println);
         };
     }
