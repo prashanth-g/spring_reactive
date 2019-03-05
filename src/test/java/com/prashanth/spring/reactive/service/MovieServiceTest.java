@@ -1,11 +1,13 @@
 package com.prashanth.spring.reactive.service;
 
-import com.prashanth.spring.reactive.MovieRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import reactor.test.StepVerifier;
+
+import java.time.Duration;
 
 import static org.junit.Assert.*;
 
@@ -14,9 +16,15 @@ import static org.junit.Assert.*;
 public class MovieServiceTest {
 
     @Autowired
-    MovieRepository movieRepository;
+    private MovieService movieService;
 
     @Test
-    public void getEvents() {
+    public void getEventsTake5() {
+        String movieId = movieService.getAllMovies().blockFirst().getId();
+
+        StepVerifier.withVirtualTime(() -> movieService.getEvents(movieId).take(5))
+                .thenAwait(Duration.ofHours(5))
+                .expectNextCount(5)
+                .verifyComplete();
     }
 }

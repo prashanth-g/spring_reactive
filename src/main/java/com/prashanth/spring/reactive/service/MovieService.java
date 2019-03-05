@@ -3,12 +3,14 @@ package com.prashanth.spring.reactive.service;
 import com.prashanth.spring.reactive.MovieRepository;
 import com.prashanth.spring.reactive.model.Movie;
 import com.prashanth.spring.reactive.model.MovieEvent;
+import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.Duration;
 import java.util.Date;
 
+@Service
 public class MovieService {
 
     private final MovieRepository movieRepository;
